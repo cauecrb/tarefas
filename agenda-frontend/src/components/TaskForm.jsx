@@ -91,7 +91,6 @@ const TaskForm = () => {
           InputLabelProps={{ shrink: true }}
           value={formData.due_date}
           onChange={(e) => setFormData({ ...formData, due_date: e.target.value })}
-          required
         />
 
         <Box sx={{ mt: 2, display: 'flex', gap: 3 }}>

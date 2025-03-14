@@ -21,7 +21,7 @@ class TaskController extends Controller
         $task = Tasks::create($request->validate([
             'title' => 'required',
             'description' => 'nullable',
-            'due_date' => 'required|date',
+            'due_date' => 'nullable|date',
             'completed' => 'boolean',
             'is_favorite' => 'boolean',
             'color' => 'sometimes|string|max:7'
@@ -42,13 +42,12 @@ class TaskController extends Controller
         $task->update($request->validate([
             'title' => 'sometimes|required',
             'description' => 'nullable',
-            'due_date' => 'sometimes|required|date',
+            'due_date' => 'nullable|date',
             'completed' => 'sometimes|boolean',
             'is_favorite' => 'boolean',
             'color' => 'sometimes|string|max:7'
         ]));
 
-        //$task->update($validated);
         return new TaskResource($task);
     }
 

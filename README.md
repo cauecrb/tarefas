@@ -5,14 +5,16 @@ Aplicação completa de gerenciamento de tarefas com:
 - **Backend**: Laravel 10 + MySQL
 - **Frontend**: React 18 + Material-UI
 
+este projeto foi feito com React, MySQL e Sail, para encapsular o backend Laravel.
+
 ## Estrutura
 
-agenda-fullstack/
-├── backend/ # API Laravel
+agenda/
+├── agenda/ # API Laravel
 │ ├── app/
 │ ├── config/
 │ └── ...
-├── frontend/ # Aplicação React
+├── agenda-frontend/ # Aplicação React
 │ ├── src/
 │ ├── public/
 │ └── ...
@@ -21,9 +23,7 @@ agenda-fullstack/
 ## Primeiros Passos
 
 ### 1. Configurar backend
-```bash
 cd backend
-cp .env.example .env
 composer install
 ./vendor/bin/sail up -d
 ./vendor/bin/sail artisan migrate
@@ -32,3 +32,6 @@ composer install
 cd frontend
 npm install
 npm run dev
+
+## 3. executando o projeto
+após iniciar o backend e o forntend, acessar localhost:3000 para a view de lista de tarefas.

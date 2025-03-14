@@ -380,8 +380,11 @@ const TaskList = () => {
                         </Typography>
                         
                         <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                          <strong> 🕒 Prazo:</strong> {format(parseISO(task.due_date), 'dd/MM/yyyy HH:mm')}
-                        </Typography>
+                        {task.due_date ? (
+                          `🕒 ${format(parseISO(task.due_date), 'dd/MM/yyyy HH:mm')}`
+                        ) : (
+                          '⏳ Sem prazo definido'
+                        )}                        </Typography>
                       </Box>
                       </>
                     )}

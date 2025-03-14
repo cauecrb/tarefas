@@ -7,18 +7,6 @@ Aplicação completa de gerenciamento de tarefas com:
 
 este projeto foi feito com React, MySQL e Sail, para encapsular o backend Laravel.
 
-## Estrutura
-
-agenda/
-├── agenda/ # API Laravel
-│ ├── app/
-│ ├── config/
-│ └── ...
-├── agenda-frontend/ # Aplicação React
-│ ├── src/
-│ ├── public/
-│ └── ...
-
 
 ## Primeiros Passos
 

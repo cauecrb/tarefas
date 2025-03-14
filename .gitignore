@@ -1,0 +1,20 @@
+# Laravel
+/agenda/.env
+/agenda/vendor/
+/agenda/storage/framework/cache/
+/agenda/storage/framework/sessions/
+/agenda/storage/framework/views/
+
+# React
+/agenda-frontend/node_modules/
+/agenda-frontend/.env
+/agenda-frontend/dist/
+/agenda-frontend/build/
+
+# Geral
+.DS_Store
+.idea
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

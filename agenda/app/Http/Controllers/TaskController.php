@@ -21,7 +21,7 @@ class TaskController extends Controller
         $task = Tasks::create($request->validate([
             'title' => 'required',
             'description' => 'nullable',
-            'due_date' => 'nullable|date',
+            'due_date' => 'nullable|date_format:Y-m-d H:i:s',
             'completed' => 'boolean',
             'is_favorite' => 'boolean',
             'color' => 'sometimes|string|max:7'

@@ -172,11 +172,16 @@ const TaskList = () => {
   const [showCreateCard, setShowCreateCard] = useState(false);
 
   const handleCreateTask = async () => {
+
+    console.error('passei 0', error, 'due_date', newTask.due_date);
+
     try {
       const response = await api.post('/tasks', {
         ...newTask,
-        due_date: new Date(newTask.due_date).toISOString()
+        due_date: new Date(newTask.due_date).toISOString().replace('T', ' ').substring(0, 19)
       });
+      console.error('passei 1', error, 'due_date', newTask.due_date);
+
       
       setTasks([response.data.data, ...tasks]);
       setShowCreateCard(false);
@@ -187,7 +192,7 @@ const TaskList = () => {
         color: '#e3f2fd'
       });
     } catch (error) {
-      console.error('Erro ao criar tarefa:', error);
+      console.error('Erro ao criar tarefa: aqui', error);
     }
   };
 
@@ -209,14 +214,12 @@ const TaskList = () => {
 
   return (
     <div style={{ padding: '60px' }}>
-      <Box display="flex" justifyContent="space-between" mb={3} gap={3}><br>
-      </br>
-          <Box sx={{flexGrow: 1, 
-          display: 'flex',
-          gap: 1,
-          width: '100%',
-          maxWidth: { md: 'calc(100% - 200px)' }
-         }}>
+          <Box sx={{ 
+        mb: 4,
+        display: 'flex',
+        gap: 2,
+        flexDirection: { xs: 'column', md: 'row' }
+      }}>
             <TextField
               fullWidth
               variant="outlined"
@@ -272,18 +275,100 @@ const TaskList = () => {
                 {getColorName(selectedColor)}
               </Typography>
             )}
-            
-          <Button 
-            variant="contained" 
-            color="primary"
-            href="/new"
-          >
-            Nova Tarefa
-          </Button>
         </Box>
-      </Box>
 
       <Grid container spacing={6}>
+      {showCreateCard ? (
+          <Grid item xs={12} md={4}>
+            <Paper elevation={3} sx={{ 
+              borderRadius: 3,
+              border: '2px dashed #e0e0e0',
+              backgroundColor: newTask.color,
+              minHeight: 300
+            }}>
+              <CardContent>
+                <Box sx={{ 
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 2,
+                  height: '100%'
+                }}>
+                  <TextField
+                    fullWidth
+                    label="Título"
+                    value={newTask.title}
+                    onChange={(e) => setNewTask({...newTask, title: e.target.value})}
+                    required
+                  />
+                  
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={3}
+                    label="Descrição"
+                    value={newTask.description}
+                    onChange={(e) => setNewTask({...newTask, description: e.target.value})}
+                  />
+                  
+                  <TextField
+                    fullWidth
+                    type="datetime-local"
+                    label="Prazo"
+                    InputLabelProps={{ shrink: true }}
+                    value={newTask.due_date}
+                    onChange={(e) => setNewTask({...newTask, due_date: e.target.value})}
+                    required
+                  />
+                  
+                  <Box sx={{ 
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    mt: 'auto'
+                  }}>
+                    <ColorPicker
+                      color={newTask.color}
+                      onChange={(newColor) => setNewTask({...newTask, color: newColor})}
+                      icon={<FormatPaintIcon />}
+                    />
+                    
+                    <Box>
+                      <Button 
+                        onClick={() => setShowCreateCard(false)}
+                        sx={{ mr: 1 }}
+                      >
+                        Cancelar
+                      </Button>
+                      <Button 
+                        variant="contained" 
+                        onClick={handleCreateTask}
+                        disabled={!newTask.title || !newTask.due_date}
+                      >
+                        Criar
+                      </Button>
+                    </Box>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Paper>
+          </Grid>
+        ) : (
+          <Grid item xs={12} md={4}>
+            <Paper elevation={0} sx={{ 
+              height: 300,
+              border: '2px dashed #e0e0e0',
+              borderRadius: 3,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              '&:hover': { borderColor: '#64b5f6' }
+            }} onClick={() => setShowCreateCard(true)}>
+              <Typography variant="h6" color="textSecondary">
+                + Nova Tarefa
+              </Typography>
+            </Paper>
+          </Grid>
+        )}
         {filteredTasks?.length > 0 ? (
           filteredTasks.map((task) => (
             <Grid item xs={12} md={4} key={task.id} sx={{padding: '24px'}}>

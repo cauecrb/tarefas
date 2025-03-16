@@ -42,7 +42,7 @@ class TaskController extends Controller
         $task->update($request->validate([
             'title' => 'sometimes|required',
             'description' => 'nullable',
-            'due_date' => 'nullable|date',
+            'due_date' => 'nullable|date_format:Y-m-d H:i:s',
             'completed' => 'sometimes|boolean',
             'is_favorite' => 'boolean',
             'color' => 'sometimes|string|max:7'

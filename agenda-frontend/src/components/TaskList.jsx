@@ -132,13 +132,13 @@ const TaskList = () => {
     try {
       const dueDate = new Date(editedTask.due_date);
     if (isNaN(dueDate)) {
-      alert('Data inválida');
+      alert('Data inválida', dueDate);
       return;
     }
     const payload = {
       title: editedTask.title,
       description: editedTask.description,
-      due_date: editedTask.date,
+      due_date: editedTask.date || null,
       completed: editedTask.completed,
       is_favorite: editedTask.is_favorite,
       color: editedTask.color
@@ -173,15 +173,11 @@ const TaskList = () => {
 
   const handleCreateTask = async () => {
 
-    console.error('passei 0', error, 'due_date', newTask.due_date);
-
     try {
       const response = await api.post('/tasks', {
         ...newTask,
-        due_date: new Date(newTask.due_date).toISOString().replace('T', ' ').substring(0, 19)
+        due_date: new Date(newTask.due_date).toISOString().replace('T', ' ').substring(0, 19) || null
       });
-      console.error('passei 1', error, 'due_date', newTask.due_date);
-
       
       setTasks([response.data.data, ...tasks]);
       setShowCreateCard(false);
@@ -192,7 +188,7 @@ const TaskList = () => {
         color: '#e3f2fd'
       });
     } catch (error) {
-      console.error('Erro ao criar tarefa: aqui', error);
+      console.error('Erro ao criar tarefa:', error);
     }
   };
 
@@ -317,7 +313,6 @@ const TaskList = () => {
                     InputLabelProps={{ shrink: true }}
                     value={newTask.due_date}
                     onChange={(e) => setNewTask({...newTask, due_date: e.target.value})}
-                    required
                   />
                   
                   <Box sx={{ 
@@ -341,7 +336,7 @@ const TaskList = () => {
                       <Button 
                         variant="contained" 
                         onClick={handleCreateTask}
-                        disabled={!newTask.title || !newTask.due_date}
+                        disabled={!newTask.title}
                       >
                         Criar
                       </Button>
@@ -464,13 +459,20 @@ const TaskList = () => {
                           {task.description || 'Sem descrição'}
                         </Typography>
                         
+                        <Box sx={{ 
+                            marginTop: 'auto',
+                            paddingTop: 2,
+                            borderTop: '1px dashed rgba(0, 0, 0, 0.12)'
+                        }}>
                         <Typography variant="body2" sx={{ fontWeight: 500 }}>
                         {task.due_date ? (
                           `🕒 ${format(parseISO(task.due_date), 'dd/MM/yyyy HH:mm')}`
                         ) : (
                           '⏳ Sem prazo definido'
-                        )}                        </Typography>
+                        )}                        
+                        </Typography>
                       </Box>
+                    </Box>
                       </>
                     )}
                   </CardContent>
